@@ -1,0 +1,117 @@
+<!DOCTYPE>  
+<html>  
+<head>  
+  <title> jquery </title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>  
+</head>  
+<body>  
+      
+<div class="container">  
+  <h1> Expense Tracker </h1>  
+      
+  <form>  
+
+    <div class="container">  
+      <label>Name</label>  
+      <input type="text" name="name" class="form-control" placeholder="category" size="20"  required>  
+    </div>  
+      
+    <div class="container">  
+      <label>Date</label>  
+      <input type="date" name="date" class="form-control" size="20"    required>  
+    </div>  
+
+    <div class="container">  
+      <label>Amount</label>  
+      <input type="text" name="amount" class="form-control" placeholder="Enter the amount" size="20"    required>  
+    </div>  
+     
+     <div class="container">
+    <button type="submit" class="btn btn-success save-btn">Save</button>  
+    </div>
+      
+  </form>  
+  <br/> 
+  <table class="table table-bordered data-table">  
+    <thead>  
+      <th>Name</th>  
+      <th>Date</th>
+      <th>Amount</th>
+      <th width="200px">Action</th>  
+    </thead>  
+    <tbody>  
+      
+    </tbody>  
+  </table>  
+     
+</div>  
+     
+<script type="text./javascript">  
+     
+    $("form").submit(function(e){  
+        e.preventDefault();  
+        var name = $("input[name='name']").val();   
+        var date = $("input[name='date']").val(); 
+        var amount= $("input[name='amount']").val();  
+       
+        $(".data-table tbody").append("<tr data-name='"+name+"' data-date='"+date+"' data-amount='"+amount+"'><td>"+name+"</td><td>"+date+"</td><td>"+amount+"</td><td><button class='btn btn-info btn-xs btn-edit'>Edit</button><button class='btn btn-danger btn-xs btn-delete'>Delete</button></td></tr>");  
+      
+        $("input[name='name']").val('');  
+        $("input[name='date']").val('');  
+        $("input[name='amount']").val('');  
+    });  
+     
+    $("body").on("click", ".btn-delete", function(){  
+        $(this).parents("tr").remove();  
+    });  
+      
+    $("body").on("click", ".btn-edit", function(){  
+        var name = $(this).parents("tr").attr('data-name');  
+        var date = $(this).parents("tr").attr('data-date');
+        var amount = $(this).parents("tr").attr('data-amount');  
+      
+        $(this).parents("tr").find("td:eq(0)").html('<input name="edit_name" value="'+name+'">');  
+        $(this).parents("tr").find("td:eq(1)").html('<input name="edit_date" value="'+date+'">');  
+        $(this).parents("tr").find("td:eq(2)").html('<input name="edit_amount" value="'+amount+'">');  
+      
+        $(this).parents("tr").find("td:eq(3)").prepend("<button class='btn btn-info btn-xs btn-update'>Update</button><button class='btn btn-warning btn-xs btn-cancel'>Cancel</button>")  
+        $(this).hide();  
+    });  
+     
+    $("body").on("click", ".btn-cancel", function(){  
+        var name = $(this).parents("tr").attr('data-name');  
+        var date = $(this).parents("tr").attr('data-date');  
+        var amount = $(this).parents("tr").attr('data-amount');  
+      
+        $(this).parents("tr").find("td:eq(0)").text(name);  
+        $(this).parents("tr").find("td:eq(1)").text(date);  
+        $(this).parents("tr").find("td:eq(2)").text(amount); 
+
+        $(this).parents("tr").find(".btn-edit").show();  
+        $(this).parents("tr").find(".btn-update").remove();  
+        $(this).parents("tr").find(".btn-cancel").remove();  
+    });  
+     
+    $("body").on("click", ".btn-update", function(){  
+       var name = $(this).parents("tr").find("input[name='edit_name']").val();  
+       var date = $(this).parents("tr").find("input[name='edit_date']").val();
+       var amount = $(this).parents("tr").find("input[name='edit_amount']").val();  
+      
+        $(this).parents("tr").find("td:eq(0)").text(name);  
+        $(this).parents("tr").find("td:eq(1)").text(date);   
+        $(this).parents("tr").find("td:eq(2)").text(amount);  
+       
+        $(this).parents("tr").attr('data-name', name); 
+        $(this).parents("tr").attr('data-date', date);     
+        $(this).parents("tr").attr('data-amount',amount);  
+      
+        $(this).parents("tr").find(".btn-edit").show();  
+        $(this).parents("tr").find(".btn-cancel").remove();  
+        $(this).parents("tr").find(".btn-update").remove();  
+    });  
+      
+</script>  
+       
+</body>  
+</html> 
